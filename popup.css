@@ -1,0 +1,76 @@
+body {
+  width: 260px;
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: #0f0f13;
+  color: #e8e8ed;
+}
+
+.container {
+  padding: 18px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.counter-box {
+  background: linear-gradient(145deg, #1a1a24, #14141c);
+  border-radius: 16px;
+  padding: 22px 12px;
+  border: 1px solid #2a2a3a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+  margin-bottom: 14px;
+}
+
+.counter-value {
+  font-size: 52px;
+  font-weight: 800;
+  display: block;
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff, #a0a0b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.label {
+  font-size: 11px;
+  color: #8888a0;
+  margin: 6px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+button.reset {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  background: transparent;
+  color: #8888a0;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+button.reset:hover {
+  background: #1a1a24;
+  color: #c0c0d0;
+}
+
+.credit {
+  margin: 14px 0 0;
+  font-size: 11px;
+  color: #55556a;
+  letter-spacing: 0.5px;
+}

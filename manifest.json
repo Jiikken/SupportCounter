@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Support Counter",
+  "version": "1.3",
+  "description": "Счётчик отправленных сообщений ВК для Amazing Support. Автор: Jiken",
+  "permissions": ["storage", "scripting", "activeTab"],
+  "host_permissions": [
+    "*://vk.com/*",
+    "*://*.vk.com/*",
+    "*://vk.ru/*",
+    "*://*.vk.ru/*",
+    "*://web.api.vk.ru/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Support Counter by Jiken",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://vk.com/*",
+        "*://*.vk.com/*",
+        "*://vk.ru/*",
+        "*://*.vk.ru/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["inject.js"],
+      "matches": [
+        "*://vk.com/*",
+        "*://*.vk.com/*",
+        "*://vk.ru/*",
+        "*://*.vk.ru/*"
+      ]
+    }
+  ]
+}
