@@ -3,19 +3,32 @@
     return typeof url === 'string' && url.includes('messages.send');
   }
 
-  function hasGroupId(body) {
+  function isRealCommunityMessage(body) {
     if (!body) return false;
-    try {
-      const text = typeof body === 'string' ? body : '';
-      if (text.includes('group_id=')) {
-        // Можно дополнительно проверить, что значение не пустое
-        const match = text.match(/group_id=(\d+)/);
-        return match && match[1] !== '0';
-      }
-      return false;
-    } catch (e) {
+    
+    let text = '';
+    if (typeof body === 'string') {
+      text = body;
+    } else if (body instanceof URLSearchParams) {
+      text = body.toString();
+    } else {
       return false;
     }
+
+    if (text.includes('action=') || text.includes('reaction_id=')) {
+      return false;
+    }
+
+    const groupIdMatch = text.match(/group_id=(\d+)/);
+    if (!groupIdMatch) return false;
+    
+    const groupId = parseInt(groupIdMatch[1], 10);
+    if (groupId === 0 || isNaN(groupId)) return false; // Если 0 — значит, отправлено от себя
+
+    const hasContent = text.includes('message=') || text.includes('attachment=');
+    if (!hasContent) return false;
+
+    return true;
   }
 
   function notify() {
@@ -35,16 +48,19 @@
       if (args[1] && args[1].body) {
         bodyText = args[1].body;
       } else if (req instanceof Request) {
-        // Если передали Request-объект, клонируем и читаем
         try {
           const cloned = req.clone();
           cloned.text().then(text => {
-            if (hasGroupId(text)) notify();
+            if (isRealCommunityMessage(text)) {
+              console.log('[Support Counter] Успех! Отправлено от сообщества:', text.substring(0, 100) + '...');
+              notify();
+            }
           }).catch(() => {});
         } catch (e) {}
       }
 
-      if (bodyText && hasGroupId(bodyText)) {
+      if (bodyText && isRealCommunityMessage(bodyText)) {
+        console.log('[Support Counter] Успех! Отправлено от сообщества:', String(bodyText).substring(0, 100) + '...');
         notify();
       }
     }
@@ -61,7 +77,8 @@
   };
 
   XMLHttpRequest.prototype.send = function(body) {
-    if (this._isTarget && hasGroupId(body)) {
+    if (this._isTarget && isRealCommunityMessage(body)) {
+      console.log('[Support Counter] Успех! XHR отправлено от сообщества');
       this.addEventListener('load', notify, { once: true });
     }
     return originalSend.call(this, body);
